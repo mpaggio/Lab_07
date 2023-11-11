@@ -11,7 +11,7 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
     private final List<T> elements;
 
     public IterableWithPolicyImpl(final T[] parameterArray){
-        this.elements.copyOf(parameterArray);
+        this.elements = List.of(parameterArray);
     }
 
     public void setIterationPolicy(final Predicate<T> filter) {
@@ -34,5 +34,9 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
             }
             throw new NoSuchElementException();
 		}
+    }
+
+    public Iterator<T> iterator() {
+        return new InnerIterableWithPolicyImpl();
     }
 }
