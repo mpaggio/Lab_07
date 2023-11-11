@@ -9,13 +9,19 @@ import it.unibo.inner.api.Predicate;
 
 public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
     private final List<T> elements;
+    private Predicate<T> filter;
 
     public IterableWithPolicyImpl(final T[] parameterArray){
-        this.elements = List.of(parameterArray);
+        this(parameterArray, new Predicate<T>(){public boolean test(T elem){ return true;}});
+    }
+
+    public IterableWithPolicyImpl(final T[] parameterArray, final Predicate<T> filter){
+        elements = List.of(parameterArray);
+        this.filter = filter;
     }
 
     public void setIterationPolicy(final Predicate<T> filter) {
-
+        this.filter = filter;
 	}
 
     public class InnerIterableWithPolicyImpl implements Iterator<T>{
