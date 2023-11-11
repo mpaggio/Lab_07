@@ -28,8 +28,12 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
         private int currentIndex = 0;
 
 		public boolean hasNext() {
-			if(this.currentIndex < elements.size()){
-                return true;
+			while(this.currentIndex < elements.size()){
+                T elem = elements.get(currentIndex);
+                if(filter.test(elem)){
+                    return true;
+                }
+                this.currentIndex++;
             }
             return false;
 		}
