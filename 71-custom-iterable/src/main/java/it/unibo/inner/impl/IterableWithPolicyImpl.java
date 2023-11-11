@@ -17,4 +17,22 @@ public class IterableWithPolicyImpl<T> implements IterableWithPolicy<T>{
     public void setIterationPolicy(final Predicate<T> filter) {
 
 	}
+
+    public class InnerIterableWithPolicyImpl implements Iterator<T>{
+        private int currentIndex = 0;
+
+		public boolean hasNext() {
+			if(this.currentIndex < elements.size()){
+                return true;
+            }
+            return false;
+		}
+
+		public T next() {
+            if(hasNext()){
+			    return elements.get(this.currentIndex++);
+            }
+            throw new NoSuchElementException();
+		}
+    }
 }
