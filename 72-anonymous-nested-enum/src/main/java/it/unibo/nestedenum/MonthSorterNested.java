@@ -3,8 +3,6 @@ package it.unibo.nestedenum;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
 import java.lang.String;
 
 /**
@@ -14,12 +12,12 @@ public final class MonthSorterNested implements MonthSorter {
 
     @Override
     public Comparator<String> sortByDays() {
-        return null;
+        return new SortByDate();
     }
 
     @Override
     public Comparator<String> sortByOrder() {
-        return null;
+        return new SortByMonthOrder();
     }
 
     private enum Month{
@@ -67,4 +65,25 @@ public final class MonthSorterNested implements MonthSorter {
             return found;
         }
     }
+    
+    private static class SortByDate implements Comparator<String>{
+
+        @Override
+        public int compare(final String o1, final String o2) {
+            final Month firstMonth = Month.fromString(o1);
+            final Month secondMonth = Month.fromString(o2);
+            return Integer.compare(secondMonth.daysOfTheMonth, firstMonth.daysOfTheMonth);
+        }
+
+    }
+
+    private static class SortByMonthOrder implements Comparator<String>{
+
+        @Override
+        public int compare(final String o1, final String o2) {
+            return Month.fromString(o1).compareTo(Month.fromString(o2));
+        }
+
+    }
+    
 }
