@@ -9,7 +9,7 @@ import java.lang.String;
  * Implementation of {@link MonthSorter}.
  */
 public final class MonthSorterNested implements MonthSorter {
-
+    
     @Override
     public Comparator<String> sortByDays() {
         return new SortByDate();
@@ -46,10 +46,7 @@ public final class MonthSorterNested implements MonthSorter {
             Month found = null;
             List<Month> occurencyList = new ArrayList<>();
             for(Month month : values()){
-                if(month.nameOfTheMonth.equals(stringedMonth.toUpperCase())){
-                    found=month;
-                }
-                else if(month.nameOfTheMonth.startsWith(stringedMonth.toUpperCase())){
+                if(month.nameOfTheMonth.startsWith(stringedMonth.toUpperCase())){
                     occurencyList.add(month);
                 }
             }
@@ -59,7 +56,7 @@ public final class MonthSorterNested implements MonthSorter {
             else if(occurencyList.size() == 1){
                 found = occurencyList.get(0);
             }
-            if(found == null){
+            else if(occurencyList.isEmpty()){
                 throw new IllegalArgumentException("The given string is not a month");
             }
             return found;
