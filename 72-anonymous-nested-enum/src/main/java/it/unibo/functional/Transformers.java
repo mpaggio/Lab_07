@@ -4,6 +4,7 @@ import it.unibo.functional.api.Function;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,8 +55,8 @@ public final class Transformers {
      * @param <O> output elements type
      */
     public static <I, O> List<O> transform(final Iterable<I> base, final Function<I, O> transformer) {
-        return flattenTransform(base, new Function<I, List<? extends O>>(){
-            public List<? extends O> call(final I transformerInput){
+        return flattenTransform(base, new Function<I, List<O>>(){
+            public List<O> call(final I transformerInput){
                 return List.of(transformer.call(transformerInput));
             }
         });
@@ -96,7 +97,7 @@ public final class Transformers {
                 if(test.call(testInput)){
                     return List.of(testInput);
                 }
-                return List.of();
+                return Collections.emptyList();
             }
         });
     }
@@ -114,6 +115,10 @@ public final class Transformers {
      * @param <I> elements type
      */
     public static <I> List<I> reject(final Iterable<I> base, final Function<I, Boolean> test) {
-        return null;
+        return select(base, new Function<I, Boolean>(){
+            public Boolean call(final I testInput){
+                return !test.call(testInput);
+            }
+        });
     }
 }
